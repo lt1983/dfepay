@@ -32,6 +32,15 @@
 			<groupId>com.alipay</groupId>
 			<artifactId>alipay-sdk-java</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.abc</groupId>
+			<artifactId>TrustPayClient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.abc</groupId>
+			<artifactId>ServiceStub</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
