@@ -1,0 +1,68 @@
+##线上配置
+trade:
+  domain: http://lighting-boot.alipaytech.com.cn #网商支付回调网关
+  push:
+      msg-url-detail: http://test.net.liuxiwang.xin:8088/trade/order/detail?tradeNo=
+
+customer:
+  port: 8080
+        
+spring:
+    thymeleaf:
+      cache: true
+
+    session:
+      store-type: REDIS
+
+    datasource:
+        write:
+            driverClassName: com.mysql.jdbc.Driver
+            url: jdbc:mysql://dbhost:3306/lightingboot_mybank_pro?characterEncoding=UTF-8
+            username: root
+            password: password
+    redis:
+        hostName: dbhost
+        port: 6379
+        password: password
+        pool:
+          max-active: 300
+          max-wait: 3000
+          max-idle: 100
+          min-idle: 100
+        timeout: 6000
+
+merchant:
+    sign:
+      handlers: mybank
+      mybank: #网商进件扩展处理器
+        classname: com.lightingboot.merchant.core.handler.impl.MyBankMerchantSignHandler
+      qrcode:
+        url: http://m.alipaytech.com.cn/index?qrcodeType=1 #商户负责人扫码进入h5页面
+
+alipay:
+    config:
+      gateway: https://openapi.alipay.com/gateway.do #支付宝网关
+      alipayPublicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB #支付宝公钥
+      oauth2Url: https://openauth.alipay.com/oauth2/publicAppAuthorize.htm #支付宝授权地址
+      redirectUrl: http://m.alipaytech.com.cn/aliCallback.json #支付宝授权登录回调页面
+      signType: RSA2
+
+mybank:
+    config:
+        charset: utf-8
+        sign_type: RSA
+        version: 1.0.0
+        boundary: ---WebKitFormBoundary7MA4YWxkTrZu0gW
+        sftp:
+          username: 202210000000000001073
+          password: HgguohgQui_123
+        common_gateway: https://fcopen.mybank.cn/open/api/common
+        photo_gateway: https://fcsupergwlite.mybank.cn
+        mybank_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjQNXWNjJglZ0WMg90VZiWfDT5tuWAVaa1Rs0fTvfHeYhkroFmJqu7ShjxDiMjtdYdZ53ciHLKNTHwCPiK6qiEHETRzZYJr2X6VPGrrqBDqBBHr8zhRWQOGNApXqaPjfSWsygXq2tAVlic1ZiFvAQoi4pX6Dyr0jVVmsbzYQnaeTGKkqAx/ao3/4yl6RhdmkiMd3fSE1Ql9Y2Uf14oMwOEPC5jE/2u8NYydlt7H2xPZM4XjeTBf5E84ACkun/MxWSQ31uEMZOwUtl6NUnTo83ZFVhoG7BTdXgIbsdXWh04GbF4zbVy6zy6kBBY0p6nHwOszaiuHxqzoEd1WNgEEN7bQIDAQAB
+    dsd:
+        arrangementNo: 201703291010101010923203923 #机构合约编号，商户接入企业信贷业务时自动分配，获取地址 https://partner.mybank.cn/cooperation/myCooperation.htm，路径：我的合作-查看详情-开发接口调用-接口合约编号
+weixin:
+    config:
+      oauth2Url: https://open.weixin.qq.com/connect/oauth2/authorize #微信授权登录地址
+      redirectUrl: http://m.alipaytech.com.cn/wechatCallback.json #微信授权登录回调页面
+      accesstokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token #微信授权登录获取accessToken地址

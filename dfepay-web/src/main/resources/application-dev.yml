@@ -1,0 +1,82 @@
+trade:
+  domain: http://test.net.liuxiwang.xin:8088 #回调网关
+  push:
+      msg-url-detail: http://test.net.liuxiwang.xin:8088/trade/order/detail?tradeNo=
+
+customer:
+  port: 8080 #内嵌的tomcat运行端口号，系统是通过java -jar 的形式启动的，启动时会将内嵌的tomcat启动起来，启动命令见bin文件夹下的start.sh文件，可以自己调整启动参数，如内存大小等
+
+spring:
+    thymeleaf:
+      cache: false #本地测试时设置为false，上线后改成true，开启缓存
+
+    session: # 使用的spring boot框架中的session管理机制
+      store-type: REDIS # session存储方式，当前系统是放在redis中的
+
+    datasource: #数据库配置
+        write:
+            driverClassName: com.mysql.jdbc.Driver
+            url: jdbc:mysql://localhost:3306/alibank?characterEncoding=UTF-8
+            username: alibankdbo
+            password: DF123456!
+    redis: #redis配置
+        hostName: localhost
+        port: 6379
+        password: 123456
+        pool:
+          max-active: 300
+          max-wait: 3000
+          max-idle: 100
+          min-idle: 100
+        timeout: 6000
+        #如果使用的redis是集群，请将下面你配置打开，并配置好集群的nodes
+        #然后将lighting-common包下面的com.lightingboot.common.config.redis.RedisConfig类里面的代码全部注释
+        #将com.lightingboot.common.config.redis.RedisClusterConfig类里面的代码的注释打开。
+        #cluster:
+          #nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
+
+merchant: #商户模块的配置
+    sign:
+      handlers: mybank
+      mybank: #网商商户进件相关的处理类
+        classname: com.lightingboot.merchant.core.handler.impl.MyBankMerchantSignHandler
+      qrcode: #h5端的入口地址，上线后需要修改为https，此时请将com.lightingboot.h5.filter.AbsoluteSendRedirectFilterConfigure类上面的两行注释打开
+        url: http://zishu.net.liuxiwang.xin:8088/index?qrcodeType=1 # 这个地址的参数qrcodeType=1时为商户扫码进入h5端的入口，qrcodeType=11时是业务推广人员进入h5端进行商户进件的入口地址
+
+alipay: #支付宝网关等配置信息
+    config:
+      #gateway: http://openapi.sit.dl.alipaydev.com/gateway.do  #sit 测试环境网关，网商大数贷接口联调时需要
+      gateway: https://openapi.alipay.com/gateway.do #product 线上网关地址，上线使用
+      #gateway: https://openapi.alipaydev.com/gateway.do #dev 沙箱地址，沙箱环境调试使用，一般不用
+      #sit 测试环境支付宝的公钥
+      #alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqslUgbySHRxwCCWqEWP0Rh45huLtvzCcdXcQnMP7jF9Yb+68QxHlnbHUVeZesqpSdXsK4EUjb5L1Y0bUMN5mjvj+Z2bKfqhkREJMgvoOyft9DPGs718Pmphj72rxmhl3mKquhmHu0yISVt2/IQhwFhV65tfCc8uATnSUCqH7zs3SPN+jwYU/6N46qrBdpZtUd2in0iAX9TMobl5DGDUbtYxrLyHg/qbmLiTyYVjbuxgkPMG7OY5vwgphXDuAdOuYpUH5pL4wpuw1CRmHGeedS0Mk/dL2sTgEXDyQRoUXYRPdiUVMplOlV5VN/diLyfssQfm9RE+As461zRI+rqbJQIDAQAB
+      #线上的支付宝公钥
+      alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiuMLzeLj2PSBMWpIL1fr+jn4trO9wPwPpW+yfZsCV8AyysEyTOJpY7ypcU4cV7oqA9u8ljlE3nfNrig3uaZ1HJYhV7X2W11+4/6W1R3ca36V9E6y0curxapUkDTji9QA/omu91jgGHu+66T9weA9EUCyJ7dRqscsJSkxFkFE6a3yAog3JX3iSThCdtjtPoJByUEwMulwwUmIP6xlS7o6rM2vTzLbtV/hmSdht9FUHwQIs71cFAtxsuDq0ZGhAgX0gFylPqGbQk3XK/VF4DWmRRGbtSS7oN0rPjkfTvOfqghMMJIq2n1SIu5L016gPxJ3NG/PHL4xYkPn66ZM8bSmZQIDAQAB
+      #沙箱的支付宝公钥
+      #alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr0KPMVNsXDmByOEe2f/ghJp7Xe/yY1ndYaZAq2aLn/RG2/BXvndqO4khFDsDGUguh8hiHEC5KOVPEScf5JNaKDICBFRvAnI723GkxtdzCE/vNBftUDxIMOrjczITlehA2dl3kTlzgB+AqMFv0COON5zCe6yWrej8BwWzWc693siMHz7ldumJLk42aZLp/dAP4Xe82cmkqg+WgMeJR95t7pOx/Bcb40g1xEUZpHTMROBUzVB6qLk52dQY+ylbtFN/uz+XJsnwlBeHH1zjmnj5PgWOneZ7Ze9/AW8+E3CSJqAorbu0fK8ngk3PtLRQsPs7Yn8Q3IzAA2bkV/al4f0d7wIDAQAB
+      oauth2Url: https://openauth.alipay.com/oauth2/publicAppAuthorize.htm #线上的支付宝授权地址
+      #oauth2Url: https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm #沙箱环境的支付宝授权地址
+      redirectUrl: http://zishu.net.liuxiwang.xin:8088/aliCallback.json #授权回调地址，需要修改为自己的h5的域名，并外网能够访问
+      signType: RSA2 #加签算法 com.lightingboot.integration.alipay.AlipayClientFactory 该类封装了支付宝的请求client
+
+
+mybank: #网商的网关等配置 com.lightingboot.integration.mybank.common.client.MybankClientFactory该类封装了网商的接口请求client
+    config:
+        charset: utf-8
+        sign_type: RSA
+        version: 1.0.0
+        boundary: ---WebKitFormBoundary7MA4YWxkTrZu0gW #上传图片是的分隔符
+        sftp: #上线前需要向网商申请，有网商分配
+          username: 202210000000000001073
+          password: HgguohgQui_123
+        common_gateway: http://fcsupergw.dl.alipaydev.com/open/api/common #测试环境网关地址
+        photo_gateway: https://fcsupergwlite.dl.alipaydev.com #测试环境图片上传网关地址
+        #测试环境的网商公钥
+        mybank_public_key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDOb4B1dnwONcW0RoJMa0IOq3O6jiqnTGLUpxEw2xJg+c7wsb6DBy5CAoR0w2ZjZ/BjKxGIQ+DoDg3NsHJeyuEjNF0/Ro/R5xVpFC5z4cBVSC2/gddz4a1EoGDJewML/Iv0yIw7ylB86++h23nRd079c5S9RZXurBfnLW2Srhqk2QIDAQAB
+    dsd: #大数贷配置
+        arrangementNo: 201703291010101010923203923 #机构合约编号，商户接入企业信贷业务时自动分配，获取地址 https://partner.mybank.cn/cooperation/myCooperation.htm，路径：我的合作-查看详情-开发接口调用-接口合约编号
+weixin: #微信网关配置
+    config:
+      oauth2Url: https://open.weixin.qq.com/connect/oauth2/authorize
+      redirectUrl: http://zishu.net.liuxiwang.xin:8088/wechatCallback.json
+      accesstokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token
