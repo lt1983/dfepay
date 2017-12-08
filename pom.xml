@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.dooffe</groupId>
+	<artifactId>dfepay-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>dfepay-common</module>
+		<module>dfepay-batch</module>
+		<module>dfepay-test</module>
+		<module>dfepay-web</module>
+	</modules>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.9.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<dfepay.version>0.0.1-SNAPSHOT</dfepay.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven.test.skip>true</maven.test.skip>
+		<maven.test.failure.ignore>true</maven.test.failure.ignore>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alipay</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>ALL20170904154635</version>
+			</dependency>
+			<dependency>
+				<groupId>com.abc</groupId>
+				<artifactId>abc-pay-client</artifactId>
+				<version>3.1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.abc</groupId>
+				<artifactId>ServiceStub-1.0</artifactId>
+				<version>1.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>local-repo</id>
+			<url>file://${basedir}/local_repo</url>
+		</repository>
+		<repository>
+			<id>local-repo-child</id>
+			<url>file://${basedir}/../local_repo</url>
+		</repository>
+		<repository>
+			<id>local-repo-grandchild</id>
+			<url>file://${basedir}/../../local_repo</url>
+		</repository>
+		<repository>
+			<id>codelds</id>
+			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
+		</repository>
+	</repositories>
+</project>
