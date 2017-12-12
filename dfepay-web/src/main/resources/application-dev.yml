@@ -30,8 +30,8 @@ spring:
           min-idle: 100
         timeout: 6000
         #如果使用的redis是集群，请将下面你配置打开，并配置好集群的nodes
-        #然后将lighting-common包下面的com.lightingboot.common.config.redis.RedisConfig类里面的代码全部注释
-        #将com.lightingboot.common.config.redis.RedisClusterConfig类里面的代码的注释打开。
+        #然后将lighting-common包下面的com.dooffe.common.config.redis.RedisConfig类里面的代码全部注释
+        #将com.dooffe.common.config.redis.RedisClusterConfig类里面的代码的注释打开。
         #cluster:
           #nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
 
@@ -39,8 +39,8 @@ merchant: #商户模块的配置
     sign:
       handlers: mybank
       mybank: #网商商户进件相关的处理类
-        classname: com.lightingboot.merchant.core.handler.impl.MyBankMerchantSignHandler
-      qrcode: #h5端的入口地址，上线后需要修改为https，此时请将com.lightingboot.h5.filter.AbsoluteSendRedirectFilterConfigure类上面的两行注释打开
+        classname: com.dooffeant.core.handler.impl.MyBankMerchantSignHandler
+      qrcode: #h5端的入口地址，上线后需要修改为https，此时请将com.dooffe.h5.filter.AbsoluteSendRedirectFilterConfigure类上面的两行注释打开
         url: http://zishu.net.liuxiwang.xin:8088/index?qrcodeType=1 # 这个地址的参数qrcodeType=1时为商户扫码进入h5端的入口，qrcodeType=11时是业务推广人员进入h5端进行商户进件的入口地址
 
 alipay: #支付宝网关等配置信息
@@ -57,10 +57,10 @@ alipay: #支付宝网关等配置信息
       oauth2Url: https://openauth.alipay.com/oauth2/publicAppAuthorize.htm #线上的支付宝授权地址
       #oauth2Url: https://openauth.alipaydev.com/oauth2/publicAppAuthorize.htm #沙箱环境的支付宝授权地址
       redirectUrl: http://zishu.net.liuxiwang.xin:8088/aliCallback.json #授权回调地址，需要修改为自己的h5的域名，并外网能够访问
-      signType: RSA2 #加签算法 com.lightingboot.integration.alipay.AlipayClientFactory 该类封装了支付宝的请求client
+      signType: RSA2 #加签算法 com.doofferation.alipay.AlipayClientFactory 该类封装了支付宝的请求client
 
 
-mybank: #网商的网关等配置 com.lightingboot.integration.mybank.common.client.MybankClientFactory该类封装了网商的接口请求client
+mybank: #网商的网关等配置 com.doofferation.mybank.common.client.MybankClientFactory该类封装了网商的接口请求client
     config:
         charset: utf-8
         sign_type: RSA

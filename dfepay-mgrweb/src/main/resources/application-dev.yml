@@ -1,0 +1,31 @@
+customer:
+  port: 8080 #内嵌的tomcat运行端口号，系统是通过java -jar 的形式启动的，启动时会将内嵌的tomcat启动起来，启动命令见bin文件夹下的start.sh文件，可以自己调整启动参数，如内存大小等
+
+spring:
+    thymeleaf:
+      cache: false #本地测试时设置为false，上线后改成true，开启缓存
+
+    session: # 使用的spring boot框架中的session管理机制
+      store-type: REDIS # session存储方式，当前系统是放在redis中的
+
+    datasource: #数据库配置
+        write:
+            driverClassName: com.mysql.jdbc.Driver
+            url: jdbc:mysql://localhost:3306/dfepaydb?characterEncoding=UTF-8
+            username: dfepaydbo
+            password: 123456
+    redis: #redis配置
+        hostName: localhost
+        port: 6379
+        password: 123456
+        pool:
+          max-active: 300
+          max-wait: 3000
+          max-idle: 100
+          min-idle: 100
+        timeout: 6000
+        #如果使用的redis是集群，请将下面你配置打开，并配置好集群的nodes
+        #然后将lighting-common包下面的com.dooffe.common.config.redis.RedisConfig类里面的代码全部注释
+        #将com.dooffe.common.config.redis.RedisClusterConfig类里面的代码的注释打开。
+        #cluster:
+          #nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005

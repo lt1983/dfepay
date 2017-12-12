@@ -35,7 +35,7 @@ merchant:
     sign:
       handlers: mybank
       mybank: #网商进件扩展处理器
-        classname: com.lightingboot.merchant.core.handler.impl.MyBankMerchantSignHandler
+        classname: com.dooffeant.core.handler.impl.MyBankMerchantSignHandler
       qrcode:
         url: http://m.alipaytech.com.cn/index?qrcodeType=1 #商户负责人扫码进入h5页面
 
