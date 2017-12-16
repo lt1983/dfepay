@@ -1,12 +1,16 @@
 # dfepay 多飞易付
 spring boot 的多Module基础架构版本
 
-###说明
+### 说明
 1. 本地新建local_repo放置maven库里找不到的依赖。
 1. maven的parent分拆。
 
-###目录结构
-````
+### 项目命名规则
+MODULE命名规则：{产品线英文名全称}-{module全名}，如：dfepay-web。
+包命名规则：{公司前缀}.{module全名}.{职责英文名全称}，如：com.dooffe.dfepay.web;。
+
+### 目录结构
+```
 ├─dfepay-batch  批量  
 ├─dfepay-common 通用库
 │  ├─src
