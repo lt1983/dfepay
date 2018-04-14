@@ -8,7 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>dfepay-web</artifactId>
+	<artifactId>dfepay-gateway</artifactId>
 
 
 	<dependencies>
